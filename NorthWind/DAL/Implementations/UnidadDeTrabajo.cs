@@ -1,6 +1,6 @@
 ﻿using DAL.Implementations;
 using DAL.Interfaces;
-using Entities.Entities;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +19,7 @@ namespace DAL.Implementations
         {
             context = _context;
             genericDAL = new DALGenericoImpl<T>(context);
-          
+
         }
 
         public bool Complete()

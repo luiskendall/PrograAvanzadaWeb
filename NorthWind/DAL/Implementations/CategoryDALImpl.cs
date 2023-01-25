@@ -1,5 +1,5 @@
 ﻿using DAL.Interfaces;
-using Entities.Entities;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,8 +61,8 @@ namespace DAL.Implementations
             Category category;
             using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
             {
-               
-                category= unidad.genericDAL.Get(id);
+
+                category = unidad.genericDAL.Get(id);
             }
             return category;
 
