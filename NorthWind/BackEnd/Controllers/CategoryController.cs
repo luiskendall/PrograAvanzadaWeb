@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DAL.Implementations;
+using DAL.Interfaces;
+using Entities;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,65 @@ namespace BackEnd.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+
+        private ICategoryDAL categoryDAL;
+
+        //Constructor
+        public CategoryController()
+        {
+            categoryDAL = new CategoryDALImpl(new Entities.NorthWindContext());
+        }
+
+        #region Consultas
         // GET: api/<CategoryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public JsonResult Get()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Category> categories = categoryDAL.GetAll();
+
+            return new JsonResult(categories);
         }
 
         // GET api/<CategoryController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
-            return "value";
-        }
+            Category category = categoryDAL.Get(id);
 
+            return new JsonResult(category);
+        }
+        #endregion
+
+        #region Agregar
         // POST api/<CategoryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post([FromBody] Category category)
         {
-        }
+            categoryDAL.Add(category);
 
+            return new JsonResult(category);
+        }
+        #endregion
+
+        #region Actualizar
         // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public JsonResult Put([FromBody] Category category)
         {
+            categoryDAL.Update(category);
+            return new JsonResult(category);
         }
+        #endregion
 
+        #region Eliminar
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public JsonResult Delete(int id)
         {
+            Category category = new Category { CategoryId = id };
+            categoryDAL.Remove(category);
+            return new JsonResult(category);
         }
+        #endregion
     }
 }
