@@ -9,29 +9,21 @@ using System.Threading.Tasks;
 
 namespace DAL.Implementations
 {
-    public class CategoryDALImpl : ICategoryDAL
+    public class ShipperDALImpl : IShipperDAL
     {
+
         NorthWindContext context;
 
-
-        public CategoryDALImpl()
-        {
-            context = new NorthWindContext();
-
-        }
-
-        //Manera recomendada
-        public CategoryDALImpl(NorthWindContext _Context)
+        public ShipperDALImpl(NorthWindContext _Context)
         {
             context = _Context;
 
         }
-
-        public bool Add(Category entity)
+        public bool Add(Shipper entity)
         {
             try
             {
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                using (UnidadDeTrabajo<Shipper> unidad = new UnidadDeTrabajo<Shipper>(context))
                 {
                     unidad.genericDAL.Add(entity);
                     unidad.Complete();
@@ -41,101 +33,90 @@ namespace DAL.Implementations
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
 
-        public void AddRange(IEnumerable<Category> entities)
+        public void AddRange(IEnumerable<Shipper> entities)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Category> Find(Expression<Func<Category, bool>> predicate)
+        public IEnumerable<Shipper> Find(Expression<Func<Shipper, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public Category Get(int id)
+        public Shipper Get(int id)
         {
-            Category category;
-            using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+            Shipper shipper;
+            using (UnidadDeTrabajo<Shipper> unidad = new UnidadDeTrabajo<Shipper>(context))
             {
-
-                category = unidad.genericDAL.Get(id);
+                shipper = unidad.genericDAL.Get(id);
             }
-            return category;
-
+            return shipper;
         }
 
-        public IEnumerable<Category> GetAll()
+        public IEnumerable<Shipper> GetAll()
         {
             try
             {
-                IEnumerable<Category> categories;
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                IEnumerable<Shipper> shipper;
+                using (UnidadDeTrabajo<Shipper> unidad = new UnidadDeTrabajo<Shipper>(context))
                 {
-                    categories = unidad.genericDAL.GetAll();
+                    shipper = unidad.genericDAL.GetAll();
                 }
-                return categories;
+                return shipper;
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
-        public bool Remove(Category entity)
+        public bool Remove(Shipper entity)
         {
             bool result = false;
             try
             {
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                using (UnidadDeTrabajo<Shipper> unidad = new UnidadDeTrabajo<Shipper>(context))
                 {
                     unidad.genericDAL.Remove(entity);
                     result = unidad.Complete();
                 }
-
             }
             catch (Exception)
             {
-
-                result = false;
+                return false;
             }
-
             return result;
         }
 
-        public void RemoveRange(IEnumerable<Category> entities)
+        public void RemoveRange(IEnumerable<Shipper> entities)
         {
             throw new NotImplementedException();
         }
 
-        public Category SingleOrDefault(Expression<Func<Category, bool>> predicate)
+        public Shipper SingleOrDefault(Expression<Func<Shipper, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Category entity)
+        public bool Update(Shipper entity)
         {
             bool result = false;
-
             try
             {
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                using (UnidadDeTrabajo<Shipper> unidad = new UnidadDeTrabajo<Shipper>(context))
                 {
                     unidad.genericDAL.Update(entity);
                     result = unidad.Complete();
                 }
-
             }
             catch (Exception)
             {
-
                 return false;
             }
-
             return result;
         }
     }
