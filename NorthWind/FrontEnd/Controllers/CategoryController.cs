@@ -40,11 +40,14 @@ namespace FrontEnd.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(string CategoryName)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                //categoryHelper = new CategoryHelper();
+
+                //CategoryViewModel category = categoryHelper.Add(CategoryName);
+                return View();
             }
             catch
             {
@@ -73,10 +76,14 @@ namespace FrontEnd.Controllers
             }
         }
 
-        // GET: CategoryController/Delete/5
+        //// GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            categoryHelper = new CategoryHelper();
+
+            CategoryViewModel category = categoryHelper.Get(id);
+
+            return View(category);
         }
 
         // POST: CategoryController/Delete/5
@@ -86,6 +93,10 @@ namespace FrontEnd.Controllers
         {
             try
             {
+                categoryHelper = new CategoryHelper();
+
+                CategoryViewModel category = categoryHelper.Delete(id);
+
                 return RedirectToAction(nameof(Index));
             }
             catch

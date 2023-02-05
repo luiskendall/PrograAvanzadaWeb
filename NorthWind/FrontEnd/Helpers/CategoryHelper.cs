@@ -39,5 +39,31 @@ namespace FrontEnd.Helpers
             return category;
         }
 
+        //public CategoryViewModel Add(string CategoryName)
+        //{
+
+        //    CategoryViewModel category;
+
+        //    HttpResponseMessage responseMessage = ServiceRepository.PostResponse("api/category/" + CategoryName);
+        //    var content = responseMessage.Content.ReadAsStringAsync().Result;
+
+        //    category = JsonConvert.DeserializeObject<CategoryViewModel>(content);
+
+        //    return category;
+        //}
+
+        public CategoryViewModel Delete(int id)
+        {
+
+            CategoryViewModel category;
+
+            HttpResponseMessage responseMessage = ServiceRepository.DeleteResponse("api/category/" + id.ToString());
+            var content = responseMessage.Content.ReadAsStringAsync().Result;
+
+            category = JsonConvert.DeserializeObject<CategoryViewModel>(content);
+
+            return category;
+        }
+
     }
 }
