@@ -12,13 +12,15 @@ namespace BackEnd.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        private readonly ILogger<CategoryController> logger;
 
         private ICategoryDAL categoryDAL;
 
         //Constructor
-        public CategoryController()
+        public CategoryController(ILogger<CategoryController> logger)
         {
             categoryDAL = new CategoryDALImpl(new Entities.NorthWindContext());
+            this.logger = logger;
         }
 
         #region Convert Entity to Model
@@ -50,15 +52,25 @@ namespace BackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            IEnumerable<Category> categories = categoryDAL.GetAll();
-
-            List<CategoryModel> listCat = new List<CategoryModel>();
-
-            foreach (var category in categories)
+            try
             {
-                listCat.Add(ConvertCategoryToModel(category));
+                logger.LogDebug("Ingreso GET ALL Categories");
+                IEnumerable<Category> categories = categoryDAL.GetAll();
+
+                List<CategoryModel> listCat = new List<CategoryModel>();
+
+                foreach (var category in categories)
+                {
+                    listCat.Add(ConvertCategoryToModel(category));
+                }
+                return new JsonResult(listCat);
             }
-            return new JsonResult(listCat);
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return new JsonResult(null);
+            }
+
         }
 
         // GET api/<CategoryController>/5
