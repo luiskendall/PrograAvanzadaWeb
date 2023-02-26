@@ -91,7 +91,7 @@ namespace BackEnd.Controllers
         {
             shipperDAL.Update(ConvertShipperToEntity(shipModel));
 
-            return new JsonResult(ConvertShipperToEntity(shipModel));
+            return new JsonResult(shipModel);
 
         }
         #endregion
