@@ -1,5 +1,7 @@
 ﻿using DAL.Interfaces;
 using Entities;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +33,26 @@ namespace DAL.Implementations
         {
             try
             {
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
-                {
-                    unidad.genericDAL.Add(entity);
-                    unidad.Complete();
-                }
+                string sql = "exec [dbo].[SP_AddCategory] @CategoryName, @Description";
+
+                var param = new SqlParameter[] {
+                        new SqlParameter() {
+                            ParameterName = "@CategoryName",
+                            SqlDbType =  System.Data.SqlDbType.VarChar,
+                            //Size = 10,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = entity.CategoryName
+                        },
+                        new SqlParameter() {
+                            ParameterName = "@Description",
+                            SqlDbType =  System.Data.SqlDbType.NText,
+                            //Size = 10,
+                            Direction = System.Data.ParameterDirection.Input,
+                            Value = entity.Description
+                        }
+                };
+
+                int resultado = context.Database.ExecuteSqlRaw(sql, param);
 
                 return true;
             }
@@ -72,11 +89,26 @@ namespace DAL.Implementations
         {
             try
             {
-                IEnumerable<Category> categories;
-                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                List<Category> categories = new List<Category>();
+                List<SP_GetAllCategories_Result> result;
+                string sql = "[dbo].[SP_GetAllCategories]";
+                result = context.SP_GetAllCategories_Results
+                .FromSqlRaw(sql)
+                .ToList();
+
+                foreach (var item in result)
                 {
-                    categories = unidad.genericDAL.GetAll();
+                    categories.Add(
+                        new Category
+                        {
+                            CategoryId = item.CategoryId,
+                            CategoryName = item.CategoryName,
+                            Description = item.Description,
+                            Picture = item.Picture
+                        }
+                        );
                 }
+
                 return categories;
             }
             catch (Exception)
