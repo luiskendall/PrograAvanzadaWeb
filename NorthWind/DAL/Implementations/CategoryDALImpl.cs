@@ -33,6 +33,17 @@ namespace DAL.Implementations
         {
             try
             {
+                /* Forma codigo
+                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                {
+                    unidad.genericDAL.Add(entity);
+                    unidad.Complete();
+                }
+
+                return true;
+                */
+
+
                 string sql = "exec [dbo].[SP_AddCategory] @CategoryName, @Description";
 
                 var param = new SqlParameter[] {
@@ -89,6 +100,16 @@ namespace DAL.Implementations
         {
             try
             {
+                /*Forma desde el codigo
+                IEnumerable<Category> categories;
+                using (UnidadDeTrabajo<Category> unidad = new UnidadDeTrabajo<Category>(context))
+                {
+                    categories = unidad.genericDAL.GetAll();
+                }
+                return categories;
+                */
+
+                //Forma SP
                 List<Category> categories = new List<Category>();
                 List<SP_GetAllCategories_Result> result;
                 string sql = "[dbo].[SP_GetAllCategories]";
