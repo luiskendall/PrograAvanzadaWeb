@@ -2,6 +2,7 @@ using Entities.Utilities;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using BackEnd.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseAuthorization();
 
