@@ -33,7 +33,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region  Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
+//Utilice EntityFramework para Autenticación    //Utilice el proveedor de Token por defecto (JsonWebToken)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<NorthWindContext>().AddDefaultTokenProviders();
 
 #endregion
 
@@ -62,6 +63,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 #endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,7 +76,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ApiKeyMiddleware>();
 
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
