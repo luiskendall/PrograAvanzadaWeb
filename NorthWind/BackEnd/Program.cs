@@ -34,7 +34,15 @@ builder.Services.AddSwaggerGen();
 
 #region  Identity
 //Utilice EntityFramework para Autenticación    //Utilice el proveedor de Token por defecto (JsonWebToken)
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<NorthWindContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<NorthWindContext>().AddDefaultTokenProviders();
 
 #endregion
 
