@@ -2,6 +2,7 @@
 using DAL.Implementations;
 using DAL.Interfaces;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -48,7 +49,8 @@ namespace BackEnd.Controllers
         #endregion
 
         #region Consultas
-        // GET: api/<CategoryController>
+
+        [Authorize]
         [HttpGet]
         public JsonResult Get()
         {
