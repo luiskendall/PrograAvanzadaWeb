@@ -12,10 +12,22 @@ namespace FrontEnd.Helpers
     {
         public HttpClient Client { get; set; }
 
+        //Constructor sin Token
         public ServiceRepository()
         {
             Client = new HttpClient();
             Client.BaseAddress = new Uri("http://localhost:5214");
+            Client.DefaultRequestHeaders.Add("ApiKey", "123");
+
+        }
+
+        //Constructor con Token
+        public ServiceRepository(string token)
+        {
+            Client = new HttpClient();
+            Client.BaseAddress = new Uri("http://localhost:5214");
+            Client.DefaultRequestHeaders.Add("ApiKey", "123");
+            Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
         public HttpResponseMessage GetResponse(string url)

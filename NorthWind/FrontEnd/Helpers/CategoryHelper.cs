@@ -13,6 +13,11 @@ namespace FrontEnd.Helpers
         {
             ServiceRepository = new ServiceRepository();
         }
+
+        public CategoryHelper(string token)
+        {
+            ServiceRepository = new ServiceRepository(token);
+        }
         public List<CategoryViewModel> GetAll()
         {
 

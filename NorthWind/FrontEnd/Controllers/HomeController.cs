@@ -1,4 +1,5 @@
-﻿using FrontEnd.Models;
+﻿using FrontEnd.Helpers;
+using FrontEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,6 +16,16 @@ namespace FrontEnd.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(UserViewModel user)
+        {
+            SecurityHelper securityHelper = new SecurityHelper();
+            TokenModel tokenModel = securityHelper.Login(user);
+            HttpContext.Session.SetString("token", tokenModel.Token);
+
             return View();
         }
 
